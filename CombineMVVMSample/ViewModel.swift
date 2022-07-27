@@ -9,23 +9,31 @@ final class ViewModel {
 
     private var disposeBag = Set<AnyCancellable>()
 
-    init(model: ModelProtocol = Model()) {
+    init(idTextPublisher: AnyPublisher<String?, Never>,
+         passwordTextPublisher: AnyPublisher<String?, Never>,
+         model: ModelProtocol = Model()) {
         self.model = model
-    }
-
-    func idPasswordChanged(id: String?, password: String?) {
-        let result = model.validate(idText: id, passwordText: password)
-
-        switch result {
-            case .success:
-                changeTextSubject.send("OK!!!")
-                changeColorSubject.send(.green)
-            case .failure(let error as ModelError):
-                changeTextSubject.send(error.errorText)
-                changeColorSubject.send(.red)
-            case _:
-                fatalError("Unexpected pattern.")
+        let event = Publishers
+            .CombineLatest(idTextPublisher, passwordTextPublisher)
+            .dropFirst()
+//            .debounce(for: 0.1, scheduler: RunLoop.main)
+            .map { (idText, passwordText) -> Result<Void> in
+                model.validate(idText: idText, passwordText: passwordText)
+            }
+            .eraseToAnyPublisher()
+        event.sink { result in
+            switch result {
+                case .success:
+                    self.changeTextSubject.send("OK!!!")
+                    self.changeColorSubject.send(.green)
+                case .failure(let error as ModelError):
+                    self.changeTextSubject.send(error.errorText)
+                    self.changeColorSubject.send(.red)
+                case _:
+                    fatalError("Unexpected pattern.")
+            }
         }
+        .store(in: &disposeBag)
     }
 }
 

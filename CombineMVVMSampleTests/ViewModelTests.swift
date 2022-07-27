@@ -24,15 +24,25 @@ class ViewModelTests: XCTestCase {
 
     private var disposeBag: Set<AnyCancellable>?
 
+    // UITextFieldのPublisherを表現
+    let idTextChangePublisher: PassthroughSubject<String?, Never> = .init()
+    let passwordTextChangePublisher: PassthroughSubject<String?, Never> = .init()
+
     func test_changeValidationTextAndColor() {
+
         XCTContext.runActivity(named: "バリデーションに成功する場合") { _ in
             // Given
             setup()
             fakeModel.result = .success(())
 
             // When
-            viewModel.idPasswordChanged(id: "id", password: "password")
-
+            // ユーザ入力をシミュレートするために1文字ずつSubjectに送信してます
+            "id".map { String($0) }.forEach {
+                idTextChangePublisher.send($0)
+            }
+            "password".map { String($0) } .forEach {
+                passwordTextChangePublisher.send($0)
+            }
             // Then
             XCTAssertEqual("OK!!!", changedText)
             XCTAssertEqual(UIColor.green, changedColor)
@@ -45,8 +55,13 @@ class ViewModelTests: XCTestCase {
                 setup()
                 fakeModel.result = .failure(ModelError.invalidIdAndPassword)
 
-                viewModel.idPasswordChanged(id: nil, password: nil)
-
+                // 空文字入力をシミュレート
+                "  ".map { String($0) }.forEach {
+                    idTextChangePublisher.send($0)
+                }
+                "  ".map { String($0) } .forEach {
+                    passwordTextChangePublisher.send($0)
+                }
                 XCTAssertEqual("IDとPasswordが未入力です。", changedText)
                 XCTAssertEqual(UIColor.red, changedColor)
 
@@ -57,7 +72,12 @@ class ViewModelTests: XCTestCase {
                 setup()
                 fakeModel.result = .failure(ModelError.invalidId)
 
-                viewModel.idPasswordChanged(id: nil, password: "password")
+                "  ".map { String($0) }.forEach {
+                    idTextChangePublisher.send($0)
+                }
+                "password".map { String($0) } .forEach {
+                    passwordTextChangePublisher.send($0)
+                }
 
                 XCTAssertEqual("IDが未入力です。", changedText)
                 XCTAssertEqual(UIColor.red, changedColor)
@@ -69,11 +89,22 @@ class ViewModelTests: XCTestCase {
                 setup()
                 fakeModel.result = .failure(ModelError.invalidPassword)
 
-                viewModel.idPasswordChanged(id: "id", password: nil)
-
-                XCTAssertEqual("Passwordが未入力です。", changedText)
-                XCTAssertEqual(UIColor.red, changedColor)
-
+                let expectation = expectation(description: "async validation")
+                var cancellable: AnyCancellable?
+                cancellable = viewModel
+                    .changeTextSubject
+                    .sink {
+                        XCTAssertEqual("Passwordが未入力です。", $0)
+                        expectation.fulfill()
+                        cancellable?.cancel()
+                    }
+                "id".map { String($0) }.forEach {
+                    idTextChangePublisher.send($0)
+                }
+                "  ".map { String($0) } .forEach {
+                    passwordTextChangePublisher.send($0)
+                }
+                wait(for: [expectation], timeout: 1.0)
                 clean()
             }
 
@@ -103,6 +134,8 @@ class ViewModelTests: XCTestCase {
     private func setup() {
         fakeModel = FakeModel()
         viewModel = ViewModel(
+            idTextPublisher: idTextChangePublisher.eraseToAnyPublisher(),
+            passwordTextPublisher: passwordTextChangePublisher.eraseToAnyPublisher(),
             model: fakeModel
         )
         disposeBag = [
