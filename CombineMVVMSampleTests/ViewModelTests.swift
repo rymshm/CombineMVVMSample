@@ -4,9 +4,9 @@ import Combine
 @testable import CombineMVVMSample
 
 class FakeModel: ModelProtocol {
-    var result: Result<Void>?
+    var result: Result<Void, ModelError>?
 
-    func validate(idText: String?, passwordText: String?) -> Result<Void> {
+    func validate(idText: String?, passwordText: String?) -> Result<Void, ModelError> {
         guard let result = result else {
             fatalError("validationResult has not been set.")
         }

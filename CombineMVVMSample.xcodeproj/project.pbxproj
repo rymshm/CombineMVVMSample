@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8DB6A0FF2892324F00982406 /* ViewModelForSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6A0FE2892324F00982406 /* ViewModelForSwiftUI.swift */; };
+		8DB6A1012892325F00982406 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB6A1002892325F00982406 /* SwiftUIView.swift */; };
 		8DBD4232288FCF750070A1F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD4231288FCF750070A1F8 /* AppDelegate.swift */; };
 		8DBD4234288FCF750070A1F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD4233288FCF750070A1F8 /* SceneDelegate.swift */; };
 		8DBD4236288FCF750070A1F8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBD4235288FCF750070A1F8 /* ViewController.swift */; };
@@ -29,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8DB6A0FE2892324F00982406 /* ViewModelForSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelForSwiftUI.swift; sourceTree = "<group>"; };
+		8DB6A1002892325F00982406 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		8DBD422E288FCF750070A1F8 /* CombineMVVMSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CombineMVVMSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DBD4231288FCF750070A1F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8DBD4233288FCF750070A1F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +45,7 @@
 		8DBD4247288FCFE00070A1F8 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		8DBD424D288FD47F0070A1F8 /* CombineMVVMSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CombineMVVMSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DBD4256288FD4A70070A1F8 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
+		8DD4FD382892261500AEA0AF /* CombineMVVMSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CombineMVVMSample.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,11 +87,14 @@
 		8DBD4230288FCF750070A1F8 /* CombineMVVMSample */ = {
 			isa = PBXGroup;
 			children = (
+				8DD4FD382892261500AEA0AF /* CombineMVVMSample.entitlements */,
 				8DBD4231288FCF750070A1F8 /* AppDelegate.swift */,
 				8DBD4233288FCF750070A1F8 /* SceneDelegate.swift */,
 				8DBD4245288FCFC40070A1F8 /* Model.swift */,
 				8DBD4247288FCFE00070A1F8 /* ViewModel.swift */,
+				8DB6A0FE2892324F00982406 /* ViewModelForSwiftUI.swift */,
 				8DBD4235288FCF750070A1F8 /* ViewController.swift */,
+				8DB6A1002892325F00982406 /* SwiftUIView.swift */,
 				8DBD4237288FCF750070A1F8 /* Main.storyboard */,
 				8DBD423A288FCF760070A1F8 /* Assets.xcassets */,
 				8DBD423C288FCF760070A1F8 /* LaunchScreen.storyboard */,
@@ -204,7 +212,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DB6A0FF2892324F00982406 /* ViewModelForSwiftUI.swift in Sources */,
 				8DBD4248288FCFE00070A1F8 /* ViewModel.swift in Sources */,
+				8DB6A1012892325F00982406 /* SwiftUIView.swift in Sources */,
 				8DBD4236288FCF750070A1F8 /* ViewController.swift in Sources */,
 				8DBD4232288FCF750070A1F8 /* AppDelegate.swift in Sources */,
 				8DBD4234288FCF750070A1F8 /* SceneDelegate.swift in Sources */,
@@ -369,6 +379,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CombineMVVMSample/CombineMVVMSample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H9UWKVLBFZ;
@@ -386,6 +397,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ryo.mashima.CombineMVVMSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -397,6 +411,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CombineMVVMSample/CombineMVVMSample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H9UWKVLBFZ;
@@ -414,6 +429,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ryo.mashima.CombineMVVMSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

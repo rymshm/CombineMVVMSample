@@ -17,20 +17,16 @@ final class ViewModel {
             .CombineLatest(idTextPublisher, passwordTextPublisher)
             .dropFirst()
 //            .debounce(for: 0.1, scheduler: RunLoop.main)
-            .map { (idText, passwordText) -> Result<Void> in
-                model.validate(idText: idText, passwordText: passwordText)
-            }
+            .map { model.validate(idText: $0, passwordText: $1) }
             .eraseToAnyPublisher()
         event.sink { result in
             switch result {
                 case .success:
                     self.changeTextSubject.send("OK!!!")
                     self.changeColorSubject.send(.green)
-                case .failure(let error as ModelError):
+                case .failure(let error):
                     self.changeTextSubject.send(error.errorText)
                     self.changeColorSubject.send(.red)
-                case _:
-                    fatalError("Unexpected pattern.")
             }
         }
         .store(in: &disposeBag)
@@ -38,7 +34,7 @@ final class ViewModel {
 }
 
 extension ModelError {
-    fileprivate var errorText: String {
+    var errorText: String {
         switch self {
             case .invalidIdAndPassword:
                 return "IDとPasswordが未入力です。"

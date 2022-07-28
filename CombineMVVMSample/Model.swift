@@ -1,10 +1,5 @@
 import Foundation
 
-enum Result<T> {
-    case success(T)
-    case failure(Error)
-}
-
 enum ModelError: Error {
     case invalidId
     case invalidPassword
@@ -12,11 +7,11 @@ enum ModelError: Error {
 }
 
 protocol ModelProtocol {
-    func validate(idText: String?, passwordText: String?) -> Result<Void>
+    func validate(idText: String?, passwordText: String?) -> Result<Void, ModelError>
 }
 
 final class Model: ModelProtocol {
-    func validate(idText: String?, passwordText: String?) -> Result<Void> {
+    func validate(idText: String?, passwordText: String?) -> Result<Void, ModelError> {
         switch (idText, passwordText) {
             case (.none, .none):
                 return .failure(ModelError.invalidIdAndPassword)
